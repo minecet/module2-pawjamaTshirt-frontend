@@ -1,8 +1,13 @@
-# React + Vite
+# pawjama Tshirt design
+<br>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+A platform to create a cute pyjama tshirt with you and your animal cartoon and names in a selected color option
+<br>
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to use
+- Pretty straightforward as you can see from the interface. Until you select your color, size, pet type (cat or dog), the icon of the species and enter both of your names, you cannot add the product to the basket
+- You can navigate between your added designs in the shopping card and your design page, simply use the paw icon and the basket icon to navigate
+- Refreshing the page won't lose your basket values
+- The idea came from using the website [petp](https://pet-printed.com/) and the images are also taken from there and rendered
+<br>
