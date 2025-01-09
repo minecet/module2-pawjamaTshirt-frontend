@@ -43,7 +43,7 @@ function App() {
     "hairstyle2.png",
   ];
   // Get T-shirt image for the selected color
-  const tshirtTemplate = `src/assets/${colors.find((c) => c.name === selectedColor).image}`;
+  const tshirtTemplate = `public/assets/${colors.find((c) => c.name === selectedColor).image}`;
  // const person = "src/assets/person.png"
   useEffect(() => {
     async function fetchSpeciesData() {
