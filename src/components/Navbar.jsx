@@ -1,5 +1,5 @@
-import logo from "./../assets/logo.png";
-import cart from "./../assets/cart.png";
+import logo from "./../../public/assets/logo.png";
+import cart from "./../../public/assets/cart.png";
 import { Link } from 'react-router';
 import { useNavigate } from "react-router-dom";
 
