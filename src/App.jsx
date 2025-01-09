@@ -56,7 +56,7 @@ function App() {
       }
   
       try {
-        const response = await fetch(`http://localhost:4000/${animalSpecies}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/${animalSpecies}`);
         if (response.ok) {
           const data = await response.json();
           console.log("Received species data:", data); // Log the fetched data
@@ -98,7 +98,7 @@ function App() {
       "id": 1
     };
     try {
-      const response = await fetch(`http://localhost:4000/totalPrice/1`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/totalPrice/1`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ value: totalPrice, id: 1 }),
@@ -112,7 +112,7 @@ function App() {
 
   async function deleteBasketItem(itemId) {
     try {
-      await fetch(`http://localhost:4000/basket/${itemId}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/basket/${itemId}`, {
         method: "DELETE",
       });
       console.log("Basket item deleted:", itemId);
@@ -133,7 +133,7 @@ function App() {
   }
   async function addToBasket(item) {
     try {
-      const response = await fetch("http://localhost:4000/basket", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/basket`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),

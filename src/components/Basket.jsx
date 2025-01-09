@@ -4,7 +4,7 @@ function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalP
 
     async function getBasketItems() {
         try {
-          const response = await fetch("http://localhost:4000/basket");
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/basket`);
           const data = await response.json();
           setBasket(data); // Update basket state
           calculateTotalPrice(data); // Update total price
@@ -25,7 +25,7 @@ function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalP
   useEffect(() => {
     async function fetchBasket() {
         try {
-            const response = await fetch("http://localhost:4000/basket");
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/basket`);
             const data = await response.json();
       
             // Separate totalPrice if it exists
