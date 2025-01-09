@@ -22,9 +22,12 @@ function Tshirt({
   hairstyles,
   price,
   addToBasket,
+  selectedSize,
+  onSetSelectedSize
 }) {
+
 const isAddToBasketDisabled =
-    !personName || !petName || !animalSpecies || !animalName || !selectedIcon || !selectedHairstyle;
+    !personName || !petName || !animalSpecies || !animalName || !selectedIcon || !selectedHairstyle || !selectedSize;
   
     //console.log("speciesData:", speciesData);
 const currentCustomization = {
@@ -96,6 +99,24 @@ const currentCustomization = {
         >
         Add to Basket
         </button>
+        {/* Size Dropdown */}
+        <label htmlFor="size" className="block mt-4 text-sm font-medium text-gray-700">
+          Select Size:
+        </label>
+        <select
+          id="size"
+          className="mt-1 block w-full rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          value={selectedSize}
+          onChange={onSetSelectedSize}
+        >
+          <option value="">Choose Size</option>
+          <option value="S">Small (S)</option>
+          <option value="M">Medium (M)</option>
+          <option value="L">Large (L)</option>
+          <option value="XL">Extra Large (XL)</option>
+        </select>
+        {/* Display Price */}
+        <p className="mt-2 text-lg font-bold">Price: €{price}</p>
       </div>
 
       {/* Right Side: Form Entries */}

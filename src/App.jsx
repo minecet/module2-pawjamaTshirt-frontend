@@ -20,6 +20,8 @@ function App() {
   const [selectedIcon, setSelectedIcon] = useState(""); // State for the selected icon
   const [selectedColor, setSelectedColor] = useState("white"); // Default color
   const[price,selectedPrice] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(""); // State for size
+
   const tshirtRef = useRef(null);
 
   const [basket, setBasket] = useState([]); // Initialize as an empty array
@@ -39,24 +41,6 @@ function App() {
   const hairstyles = [
     "hairstyle1.png",
     "hairstyle2.png",
-   // "hairstyle3.png",
-   // "hairstyle4.png",
-   // "hairstyle5.png",
-   // "hairstyle6.png",
-   // "hairstyle7.png",
-   /// "hairstyle8.png",
-   // "hairstyle9.png",
-   // "hairstyle10.png",
-   // "hairstyle11.png",
-   // "hairstyle12.png",
-   // "hairstyle13.png",
-   // "hairstyle14.png",
-   // "hairstyle15.png",
-   // "hairstyle16.png",
-   // "hairstyle17.png",
-   // "hairstyle18.png",
-
-
   ];
   // Get T-shirt image for the selected color
   const tshirtTemplate = `src/assets/${colors.find((c) => c.name === selectedColor).image}`;
@@ -198,6 +182,7 @@ function App() {
           onSpeciesNameChange={(e) => setSpeciesName(e.target.value)}
           onAnimalSpeciesChange={(e) => setAnimalSpecies(e.target.value)}
           onPetNameChange={(e) => setpetName(e.target.value)}
+          onSetSelectedSize={(e) => setSelectedSize(e.target.value)}
           price={price}
           selectedColor={selectedColor}
           onColorSelect={setSelectedColor}
@@ -211,6 +196,7 @@ function App() {
           hairstyles={hairstyles}
           ref={tshirtRef}
           addToBasket={addToBasket}
+          selectedSize={selectedSize}
         />} />
 
       </Routes>
