@@ -11,7 +11,8 @@ A platform to create a cute pyjama tshirt with you and your animal cartoon and n
 - Refreshing the page won't lose your basket values
 - The idea came from using the website [petp](https://pet-printed.com/) and the images are also taken from there and rendered
 <br>
-## Netfly deployment
-[Netfly](https://graceful-florentine-2d83e8.netlify.app/) 
-## Render deployment
+- Netlify
+[Netlify](https://graceful-florentine-2d83e8.netlify.app/) 
+<br>
+- Render deployment
 [Render]([[https://graceful-florentine-2d83e8.netlify.app/](https://module2-pawjamatshirt-backend.onrender.com)]) 
