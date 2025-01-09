@@ -1,5 +1,5 @@
-import logo from "./../../public/assets/logo.png";
-import cart from "./../../public/assets/cart.png";
+//import logo from "./../../public/assets/logo.png";
+//import cart from "./../../public/assets/cart.png";
 import { Link } from 'react-router';
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ function Navbar() {
         <div className="flex items-center space-x-2 w-1/4">
 
         <button onClick={() => navigate("/")} className="relative">
-            <img src={logo} alt="Logo" className="h-8 w-auto" />
+            <img src={"assets/logo.png"} alt="Logo" className="h-8 w-auto" />
           </button>
         </div>
 
@@ -27,7 +27,7 @@ function Navbar() {
         <button onClick={() => navigate("/basket")} className="relative">
 
             <img
-              src={cart}
+              src={"assets/cart.png"}
               alt="Profile photo"
               className="h-10 w-auto border-solid border border-white rounded-3xl p-1"
             />

@@ -48,7 +48,7 @@ const currentCustomization = {
       <div className="flex-1 flex flex-col justify-center items-center relative">
       {/*  select T-shirt color */}
         <img
-          src={`public/assets/${selectedColor}Tshirt.png`} // Dynamic T-shirt image based on selected color
+          src={`assets/${selectedColor}Tshirt.png`} // Dynamic T-shirt image based on selected color
           alt="T-shirt Template"
           className="max-w-md w-full h-auto"
         />
@@ -64,7 +64,7 @@ const currentCustomization = {
             {/* Selected Hairstyle */}
         {selectedHairstyle && (
         <img
-            src={`public/assets/hairstyles/${selectedHairstyle}`}
+            src={`assets/hairstyles/${selectedHairstyle}`}
             alt="Selected Hairstyle"
             className="absolute top-[145px] left-[300px]  transform -translate-x-1/2 w-14 h-14"
         />
@@ -188,11 +188,11 @@ const currentCustomization = {
             {[...Array(speciesData[animalName])].map((_, i) => (
             <img
               key={i}
-              src={`public/assets/${animalName}/${animalName}${i + 1}.png`}
+              src={`assets/${animalName}/${animalName}${i + 1}.png`}
               alt={`${animalName} Icon ${i + 1}`}
               className="w-16 h-16 m-2 rounded cursor-pointer"
               onClick={() =>
-              onIconSelect(`public/assets/${animalName}/${animalName}${i + 1}.png`)
+              onIconSelect(`assets/${animalName}/${animalName}${i + 1}.png`)
                     }
                 />
                 ))}
@@ -240,7 +240,7 @@ const currentCustomization = {
                 {hairstyles.map((hairstyle, index) => (
                 <img
                     key={index}
-                    src={`public/assets/hairstyles/${hairstyle}`}
+                    src={`assets/hairstyles/${hairstyle}`}
                     alt={`Hairstyle ${index + 1}`}
                     className="w-16 h-16 rounded cursor-pointer border border-gray-300 hover:border-blue-500"
                     onClick={() => onHairstyleSelect(hairstyle)}
