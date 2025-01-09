@@ -19,8 +19,13 @@ function Tshirt({
   onColorSelect,
   selectedHairstyle,
   onHairstyleSelect,
-  hairstyles
+  hairstyles,
+  price,
+  addToBasket
 }) {
+const isAddToBasketDisabled =
+    !personName || !petName || !animalSpecies || !animalName || !selectedIcon || !selectedHairstyle;
+  
     //console.log("speciesData:", speciesData);
 const currentCustomization = {
     personName,
@@ -28,22 +33,12 @@ const currentCustomization = {
     selectedColor,
     selectedIcon,
     selectedHairstyle,
+    price
     };
 //console.log("animalName:", animalName);
 //console.log(speciesData[animalName])
-async function addToBasket(item) {
-    try {
-      const response = await fetch("http://localhost:4000/basket", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      });
-      const data = await response.json();
-      console.log("Item added to basket:", data);
-    } catch (error) {
-      console.error("Error adding to basket:", error);
-    }
-  }
+
+
   return (
     <div className="flex flex-row justify-between items-start p-5 mt-10">
       {/* Left Side is the T-shirt Template */}
@@ -80,21 +75,26 @@ async function addToBasket(item) {
         {/* Person Name */}
 
         {personName && (
-        <p className="absolute top-[220px] left-[240px] transform -translate-x-1/2 text-white text-lg font-bold">
+        <p className="absolute top-[210px] left-[300px] transform -translate-x-1/2 text-white text-lg font-bold">
             {personName}
         </p>
         )}
         {/* Pet's Name */}
         {petName && (
-        <p className="absolute top-[220px] left-[180px] transform -translate-x-1/2 text-white text-lg font-bold">
+        <p className="absolute top-[210px] left-[240px] transform -translate-x-1/2 text-white text-lg font-bold">
             {petName}
         </p>
         )}
         <button
-            className="bg-orange-500 text-white px-4 py-2 rounded"
-            onClick={() => addToBasket(currentCustomization)}
+        className={`px-4 py-2 rounded ${
+            isAddToBasketDisabled
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-orange-500 text-white"
+        }`}
+        onClick={() => addToBasket(currentCustomization)}
+        disabled={isAddToBasketDisabled}
         >
-            Add to Basket
+        Add to Basket
         </button>
       </div>
 

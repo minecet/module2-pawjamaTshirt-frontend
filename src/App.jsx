@@ -1,6 +1,4 @@
 import { useEffect, useState, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
 import {Route, Routes } from 'react-router-dom';
@@ -21,13 +19,22 @@ function App() {
   const [speciesList, setSpeciesList] = useState([]);
   const [selectedIcon, setSelectedIcon] = useState(""); // State for the selected icon
   const [selectedColor, setSelectedColor] = useState("white"); // Default color
-
+  const[price,selectedPrice] = useState(0);
   const tshirtRef = useRef(null);
 
+  const [basket, setBasket] = useState([]); // Initialize as an empty array
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  function calculateTotalPrice(items) {
+      const total = items.reduce((sum, item) => sum + (item.price || 0), 0);
+      setTotalPrice(total);
+      return total;
+    }
+  
   // List of colors and corresponding T-shirt images
   const colors = [
-    { name: "black", image: "blackTshirt.png" },
-    { name: "white", image: "whiteTshirt.png" },
+    { name: "black", image: "blackTshirt.png", price: 25 },
+    { name: "white", image: "whiteTshirt.png", price: 30 },
   ];
   const hairstyles = [
     "hairstyle1.png",
@@ -74,6 +81,8 @@ function App() {
           setSpeciesList(Object.keys(species || {}));
           setSpeciesData(species || {}); // Update species data
           console.log("Species list updated:", Object.keys(species || {})); // Log the updated species list
+
+
         } else {
           console.error("Failed to fetch species data, status:", response.status);
           setSpeciesList([]);
@@ -90,8 +99,12 @@ function App() {
   
     fetchSpeciesData();
   }, [animalSpecies]);
-  
-
+  /* render price again if color changes */
+  useEffect(() => {          
+    selectedPrice(colors.find((c) => c.name === selectedColor).price)
+    console.log(colors.find((c) => c.name === selectedColor).price)
+    }, 
+    [selectedColor])
 
 
   
@@ -120,15 +133,30 @@ function App() {
       console.error("Error deleting basket item:", error);
     }
   }
-
+  async function addToBasket(item) {
+    try {
+      const response = await fetch("http://localhost:4000/basket", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      const data = await response.json();
+      console.log("Item added to basket:", data);
+      console.log(setTotalPrice(calculateTotalPrice(basket)))
+      setTotalPrice(calculateTotalPrice(basket))
+    } catch (error) {
+      console.error("Error adding to basket:", error);
+    }
+  }
   async function addToBasketWithImage(customization) {
     // Generate the image
-    const imageUrl = await toPng(tshirtRef.current);
-
+   // const imageUrl = await toPng(tshirtRef.current);
+   // console.log(imageUrl);
     // Send the image as part of the basket item
     const basketItem = {
       ...customization, // Includes personName, petName, selectedColor, etc.
-      imageUrl, // Base64 image
+      price
+     // imageUrl, // Base64 image
     };
 
     try {
@@ -139,6 +167,11 @@ function App() {
       });
       const data = await response.json();
       console.log("Added to basket:", data);
+      // Update the basket state and total price
+      const updatedBasket = [...basket, data];
+      setBasket(updatedBasket);
+      calculateTotalPrice(updatedBasket);
+      console.log(calculateTotalPrice(updatedBasket))
     } catch (error) {
       console.error("Error adding to basket:", error);
     }
@@ -149,7 +182,12 @@ function App() {
       <Routes>
         {/* Other Routes */}
         <Route path="/basket" element={<Basket 
-          deleteBasketItem={deleteBasketItem} />} 
+          deleteBasketItem={deleteBasketItem} 
+          basket={basket}
+          totalPrice={totalPrice}
+          setBasket={setBasket}
+          calculateTotalPrice={calculateTotalPrice}
+          />} 
         />
         <Route path="/" element={<Tshirt 
           tshirtTemplate={tshirtTemplate}
@@ -163,6 +201,7 @@ function App() {
           onSpeciesNameChange={(e) => setSpeciesName(e.target.value)}
           onAnimalSpeciesChange={(e) => setAnimalSpecies(e.target.value)}
           onPetNameChange={(e) => setpetName(e.target.value)}
+          price={price}
           selectedColor={selectedColor}
           onColorSelect={setSelectedColor}
           colors={colors}
@@ -174,7 +213,7 @@ function App() {
           onHairstyleSelect={(hairstyle) => setSelectedHairstyle(hairstyle)}
           hairstyles={hairstyles}
           ref={tshirtRef}
-          onAddToBasket={addToBasketWithImage}
+          addToBasket={addToBasket}
     
         />} />
 

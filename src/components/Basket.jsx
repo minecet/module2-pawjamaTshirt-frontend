@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-function Basket({deleteBasketItem }) {
-    const [basket, setBasket] = useState([]); // Initialize as an empty array
+function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalPrice }) {
+
     async function getBasketItems() {
         try {
           const response = await fetch("http://localhost:4000/basket");
           const data = await response.json();
-          console.log("Basket items:", data);
-          setBasket(data); // Update your basket state
+          setBasket(data); // Update basket state
+          calculateTotalPrice(data); // Update total price
         } catch (error) {
           console.error("Error fetching basket items:", error);
         }
       }
+
+    useEffect(() => {
+
+    
+        getBasketItems();
+      }, [totalPrice]); // Dependencies ensure it runs once or when these change
+    
 
       async function deleteBasketItem(itemId) {
         try {
@@ -19,7 +26,7 @@ function Basket({deleteBasketItem }) {
             method: "DELETE",
           });
           console.log("Basket item deleted:", itemId);
-          getBasketItems(); // Refresh the basket
+          getBasketItems();
         } catch (error) {
           console.error("Error deleting basket item:", error);
         }
@@ -44,12 +51,14 @@ function Basket({deleteBasketItem }) {
       {basket.length > 0 ? (
         <ul>
           {basket.map((item, index) => (
-            <li key={index} className="flex items-center space-x-4 mb-4 border-b pb-2">
-              <img src={item.imageUrl} alt="T-shirt Design" className="w-32 h-auto" />
+            <li key={index} className="flex flex-row justify-between items-center space-x-4 mb-4 border-b pb-2">
+             {//<img src={item.imageUrl} alt="T-shirt Design" className="w-32 h-auto" />
+             } 
               <div>
                 <p>Person: {item.personName}</p>
                 <p>Pet: {item.petName}</p>
                 <p>Color: {item.selectedColor}</p>
+                <p>Price: €{item.price}</p>
               </div>
               <button
                 onClick={() => deleteBasketItem(item.id)}
@@ -63,6 +72,7 @@ function Basket({deleteBasketItem }) {
       ) : (
         <p>Your basket is empty!</p>
       )}
+        <h2 className="text-xl font-bold mt-4">Total: €{totalPrice}</h2>
     </div>
   );
 }
