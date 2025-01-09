@@ -108,12 +108,16 @@ function App() {
 
 
   
-  async function updateBasketItem(itemId, updatedItem) {
+  async function updateBasketItem(totalPrice) {
+    const totalPriceEntry = {
+      "totalPrice": totalPrice,
+      "id": 1
+    };
     try {
-      const response = await fetch(`http://localhost:4000/basket/${itemId}`, {
+      const response = await fetch(`http://localhost:4000/totalPrice/1`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedItem),
+        body: JSON.stringify({ value: totalPrice, id: 1 }),
       });
       const data = await response.json();
       console.log("Basket item updated:", data);
@@ -128,7 +132,17 @@ function App() {
         method: "DELETE",
       });
       console.log("Basket item deleted:", itemId);
-      getBasketItems(); // Refresh the basket
+
+    const updatedBasket = basket.filter((item) => item.id !== itemId);
+    setBasket(updatedBasket);
+
+    const newTotalPrice = calculateTotalPrice(updatedBasket); // Calculate the new total price
+    setTotalPrice(newTotalPrice);
+
+    await updateBasketItem(newTotalPrice); // Use the calculated total price
+     /* getBasketItems(); // Refresh the basket
+      setTotalPrice(calculateTotalPrice(basket))
+      await updateBasketItem(totalPrice);    */
     } catch (error) {
       console.error("Error deleting basket item:", error);
     }
@@ -142,40 +156,21 @@ function App() {
       });
       const data = await response.json();
       console.log("Item added to basket:", data);
-      console.log(setTotalPrice(calculateTotalPrice(basket)))
+     /* console.log(setTotalPrice(calculateTotalPrice(basket)))
       setTotalPrice(calculateTotalPrice(basket))
-    } catch (error) {
-      console.error("Error adding to basket:", error);
-    }
-  }
-  async function addToBasketWithImage(customization) {
-    // Generate the image
-   // const imageUrl = await toPng(tshirtRef.current);
-   // console.log(imageUrl);
-    // Send the image as part of the basket item
-    const basketItem = {
-      ...customization, // Includes personName, petName, selectedColor, etc.
-      price
-     // imageUrl, // Base64 image
-    };
-
-    try {
-      const response = await fetch("http://localhost:4000/basket", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(basketItem),
-      });
-      const data = await response.json();
-      console.log("Added to basket:", data);
-      // Update the basket state and total price
+      await updateBasketItem(totalPrice);*/
       const updatedBasket = [...basket, data];
       setBasket(updatedBasket);
-      calculateTotalPrice(updatedBasket);
-      console.log(calculateTotalPrice(updatedBasket))
+  
+      const newTotalPrice = calculateTotalPrice(updatedBasket); // Calculate the new total price
+      setTotalPrice(newTotalPrice);
+  
+      await updateBasketItem(newTotalPrice); // Use the calculated total price
     } catch (error) {
       console.error("Error adding to basket:", error);
     }
   }
+  
   return (
     <div>
       <Navbar></Navbar>
@@ -187,6 +182,8 @@ function App() {
           totalPrice={totalPrice}
           setBasket={setBasket}
           calculateTotalPrice={calculateTotalPrice}
+          updateBasketItem={updateBasketItem}
+
           />} 
         />
         <Route path="/" element={<Tshirt 
@@ -214,7 +211,6 @@ function App() {
           hairstyles={hairstyles}
           ref={tshirtRef}
           addToBasket={addToBasket}
-    
         />} />
 
       </Routes>

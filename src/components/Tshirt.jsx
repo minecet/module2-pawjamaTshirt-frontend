@@ -21,7 +21,7 @@ function Tshirt({
   onHairstyleSelect,
   hairstyles,
   price,
-  addToBasket
+  addToBasket,
 }) {
 const isAddToBasketDisabled =
     !personName || !petName || !animalSpecies || !animalName || !selectedIcon || !selectedHairstyle;

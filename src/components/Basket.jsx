@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalPrice }) {
+function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalPrice, updateBasketItem }) {
 
     async function getBasketItems() {
         try {
@@ -17,29 +17,29 @@ function Basket({basket,setBasket, deleteBasketItem, totalPrice, calculateTotalP
 
     
         getBasketItems();
-      }, [totalPrice]); // Dependencies ensure it runs once or when these change
+       // updateBasketItem();
+      }, [totalPrice]); // render the basket if the total price has changed
     
 
-      async function deleteBasketItem(itemId) {
-        try {
-          await fetch(`http://localhost:4000/basket/${itemId}`, {
-            method: "DELETE",
-          });
-          console.log("Basket item deleted:", itemId);
-          getBasketItems();
-        } catch (error) {
-          console.error("Error deleting basket item:", error);
-        }
-      }
+
   useEffect(() => {
     async function fetchBasket() {
-      try {
-        const response = await fetch("http://localhost:4000/basket");
-        const data = await response.json();
-        setBasket(data); // Set the basket data
-      } catch (error) {
-        console.error("Error fetching basket:", error);
-      }
+        try {
+            const response = await fetch("http://localhost:4000/basket");
+            const data = await response.json();
+      
+            // Separate totalPrice if it exists
+            const totalPriceEntry = data.find((item) => item.id === "totalPrice");
+            if (totalPriceEntry) {
+              setTotalPrice(totalPriceEntry.value);
+            }
+      
+            // Filter out totalPrice from the basket items
+            const basketItems = data.filter((item) => item.id !== "totalPrice");
+            setBasket(basketItems);
+          } catch (error) {
+            console.error("Error fetching basket:", error);
+          }
     }
 
     fetchBasket();
